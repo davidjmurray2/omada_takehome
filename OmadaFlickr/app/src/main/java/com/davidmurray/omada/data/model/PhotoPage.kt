@@ -8,6 +8,6 @@ data class PhotoPage (
     val page: Int,
     val pages: Int,
     val perPage: Int,
-    val total: String,
+    val total: Int,
     val photos: List<Photo>
 )

@@ -24,20 +24,20 @@ I first wrote up a set of steps that I intended to correlate to commits, in orde
 # Code
   
 **DATA LAYER**  
-The **FlickrApi** interface is the key functionality, using Retrofit to map API responses to the **FlickrDtos** data classes. **FlickrWrapper** then translates them into the associated domain models used by the rest of the data layer and user interface. The **PhotoRepository** isn’t strictly necessary in this context, but this layer is included as its standard in development. The **ViewModel** in the UI uses the repository to get data based on success/fail of the API calls.
+The **FlickrApi** interface is the key functionality, using Retrofit to map API responses to the **FlickrDtos** data classes. **FlickrWrapper** then translates them into the associated domain models used by the rest of the data layer and user interface. The **PhotoRepository** isn’t strictly necessary in this context, but this layer is included as its standard in development. The **ViewModel** in the UI uses the repository to get data based on success/fail of the API calls.  
 ![](files/data.png)  
 
   
 
   
 **UI LAYER**   
-The **SearchPhotosScreen** is the View that uses the **SearchPhotosScreenState** provided by the **ViewModel**. It uses Glide to download and display the images from the URLs provided by the API extras. When nearing the bottom of the list, another pull of the data is triggered to pull the next page of Photo data from the API. The ViewModel tracks this and handles calls accordingly.
+The **SearchPhotosScreen** is the View that uses the **SearchPhotosScreenState** provided by the **ViewModel**. It uses Glide to download and display the images from the URLs provided by the API extras. When nearing the bottom of the list, another pull of the data is triggered to pull the next page of Photo data from the API. The ViewModel tracks this and handles calls accordingly.  
 ![](files/ui.png)  
 
 
     
 **UNIT TESTS**  
-I wrote unit tests for the ViewModel, Repository and data-conversion layers, abstracting those classes to interfaces so they could be mocked in unit tests.
+I wrote unit tests for the ViewModel, Repository and data-conversion layers, abstracting those classes to interfaces so they could be mocked in unit tests.  
 ![](files/test.png)   
   
 —  

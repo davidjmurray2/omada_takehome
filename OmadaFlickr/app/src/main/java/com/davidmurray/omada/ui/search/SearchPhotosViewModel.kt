@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.davidmurray.omada.data.repo.PhotoRepository
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +18,8 @@ import kotlinx.coroutines.launch
  * @see PhotoRepository
  */
 class SearchPhotosViewModel(
-    private val photoRepo: PhotoRepository
+    private val photoRepo: PhotoRepository,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : ViewModel() {
     private val _state = MutableStateFlow(SearchPhotosScreenState())
     val state: StateFlow<SearchPhotosScreenState> = _state.asStateFlow()
@@ -80,7 +83,7 @@ class SearchPhotosViewModel(
         if (text.isEmpty()) {
 
             // getRecentPhotos
-            viewModelScope.launch {
+            viewModelScope.launch(dispatcher) {
                 photoRepo.getRecentPhotos(100, currentPage)
                     .onSuccess { page ->
 
@@ -104,7 +107,7 @@ class SearchPhotosViewModel(
         else {
 
             // searchPhotos
-            viewModelScope.launch {
+            viewModelScope.launch(dispatcher) {
                 photoRepo.searchPhotos(text, 100, currentPage)
                     .onSuccess { page ->
 

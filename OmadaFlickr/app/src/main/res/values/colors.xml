@@ -7,4 +7,6 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="flickr_blue">#FF0062DD</color>
+    <color name="flickr_pink">#FFFF0084</color>
 </resources>

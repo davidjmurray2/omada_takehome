@@ -13,7 +13,7 @@
         android:theme="@style/Theme.OmadaFlickr">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.OmadaChallengeActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.OmadaFlickr">

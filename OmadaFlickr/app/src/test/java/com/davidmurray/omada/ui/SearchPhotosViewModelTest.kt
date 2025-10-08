@@ -1,18 +1,16 @@
-package com.davidmurray.omada.ui.search
+package com.davidmurray.omada.ui
 
 import com.davidmurray.omada.data.model.Photo
 import com.davidmurray.omada.data.model.PhotoPage
 import com.davidmurray.omada.data.remote.FlickrException
 import com.davidmurray.omada.data.repo.PhotoRepository
+import com.davidmurray.omada.ui.search.SearchPhotosViewModel
+import com.davidmurray.omada.ui.search.SearchPhotosScreenState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
+import org.junit.Assert
 import org.junit.Test
 
 /**
@@ -41,7 +39,7 @@ class SearchPhotosViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun testInitialState() = runTest {
-        val repo : PhotoRepository = object : PhotoRepository {
+        val repo: PhotoRepository = object : PhotoRepository {
             override suspend fun searchPhotos(
                 text: String,
                 numPerPage: Int,
@@ -55,17 +53,17 @@ class SearchPhotosViewModelTest {
         }
         val viewModel = SearchPhotosViewModel(repo, StandardTestDispatcher(testScheduler))
 
-        assertTrue(viewModel.state.value.text.isEmpty())
-        assertTrue(viewModel.state.value.photos.isEmpty())
-        assertTrue(viewModel.state.value.isLoading) // the initial state fires off a getRecentPhotos request
+        Assert.assertTrue(viewModel.state.value.text.isEmpty())
+        Assert.assertTrue(viewModel.state.value.photos.isEmpty())
+        Assert.assertTrue(viewModel.state.value.isLoading) // the initial state fires off a getRecentPhotos request
         assert(viewModel.state.value.photos.isEmpty())
-        assertNull(viewModel.state.value.error)
+        Assert.assertNull(viewModel.state.value.error)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun testSuccessPath() = runTest {
-        val repo : PhotoRepository = object : PhotoRepository {
+        val repo: PhotoRepository = object : PhotoRepository {
             override suspend fun searchPhotos(
                 text: String,
                 numPerPage: Int,
@@ -79,35 +77,35 @@ class SearchPhotosViewModelTest {
         }
         val viewModel = SearchPhotosViewModel(repo, StandardTestDispatcher(testScheduler))
 
-        assertTrue(viewModel.state.value.text.isEmpty())
-        assertTrue(viewModel.state.value.photos.isEmpty())
-        assertTrue(viewModel.state.value.isLoading) // the initial state fires off a getRecentPhotos request
+        Assert.assertTrue(viewModel.state.value.text.isEmpty())
+        Assert.assertTrue(viewModel.state.value.photos.isEmpty())
+        Assert.assertTrue(viewModel.state.value.isLoading) // the initial state fires off a getRecentPhotos request
         assert(viewModel.state.value.photos.isEmpty())
-        assertNull(viewModel.state.value.error)
+        Assert.assertNull(viewModel.state.value.error)
 
         advanceUntilIdle()
 
-        assertFalse(viewModel.state.value.isLoading)
+        Assert.assertFalse(viewModel.state.value.isLoading)
         assert(viewModel.state.value.photos.size == 1)
 
         viewModel.onTextChange("test")
-        assertEquals(viewModel.state.value.text, "test")
+        Assert.assertEquals(viewModel.state.value.text, "test")
 
         viewModel.searchPhotos(true)
 
-        assertTrue(viewModel.state.value.isLoading)
-        assertTrue(viewModel.state.value.photos.isEmpty())
+        Assert.assertTrue(viewModel.state.value.isLoading)
+        Assert.assertTrue(viewModel.state.value.photos.isEmpty())
 
         advanceUntilIdle()
 
-        assertFalse(viewModel.state.value.isLoading)
+        Assert.assertFalse(viewModel.state.value.isLoading)
         assert(viewModel.state.value.photos.size == 1)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun testFailurePath() = runTest {
-        val repo : PhotoRepository = object : PhotoRepository {
+        val repo: PhotoRepository = object : PhotoRepository {
             override suspend fun searchPhotos(
                 text: String,
                 numPerPage: Int,
@@ -121,32 +119,32 @@ class SearchPhotosViewModelTest {
         }
         val viewModel = SearchPhotosViewModel(repo, StandardTestDispatcher(testScheduler))
 
-        assertTrue(viewModel.state.value.text.isEmpty())
-        assertTrue(viewModel.state.value.photos.isEmpty())
-        assertTrue(viewModel.state.value.isLoading) // the initial state fires off a getRecentPhotos request
+        Assert.assertTrue(viewModel.state.value.text.isEmpty())
+        Assert.assertTrue(viewModel.state.value.photos.isEmpty())
+        Assert.assertTrue(viewModel.state.value.isLoading) // the initial state fires off a getRecentPhotos request
         assert(viewModel.state.value.photos.isEmpty())
-        assertNull(viewModel.state.value.error)
+        Assert.assertNull(viewModel.state.value.error)
 
         advanceUntilIdle()
 
-        assertFalse(viewModel.state.value.isLoading)
-        assertTrue(viewModel.state.value.photos.isEmpty())
-        assertNotNull(viewModel.state.value.error)
-        assertEquals(viewModel.state.value.error, "Test getRecentPhotos failed")
+        Assert.assertFalse(viewModel.state.value.isLoading)
+        Assert.assertTrue(viewModel.state.value.photos.isEmpty())
+        Assert.assertNotNull(viewModel.state.value.error)
+        Assert.assertEquals(viewModel.state.value.error, "Test getRecentPhotos failed")
 
         viewModel.onTextChange("test")
-        assertEquals(viewModel.state.value.text, "test")
+        Assert.assertEquals(viewModel.state.value.text, "test")
 
         viewModel.searchPhotos(true)
 
-        assertTrue(viewModel.state.value.isLoading)
-        assertTrue(viewModel.state.value.photos.isEmpty())
+        Assert.assertTrue(viewModel.state.value.isLoading)
+        Assert.assertTrue(viewModel.state.value.photos.isEmpty())
 
         advanceUntilIdle()
 
-        assertFalse(viewModel.state.value.isLoading)
-        assertTrue(viewModel.state.value.photos.isEmpty())
-        assertNotNull(viewModel.state.value.error)
-        assertEquals(viewModel.state.value.error, "Test searchPhotos failed")
+        Assert.assertFalse(viewModel.state.value.isLoading)
+        Assert.assertTrue(viewModel.state.value.photos.isEmpty())
+        Assert.assertNotNull(viewModel.state.value.error)
+        Assert.assertEquals(viewModel.state.value.error, "Test searchPhotos failed")
     }
 }

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.CircularProgressIndicator
@@ -39,6 +40,7 @@ import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -66,9 +68,9 @@ fun SearchPhotosScreen(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text("Omada Coding Challenge") },
+                title = { Text(stringResource(R.string.app_title)) },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = colorResource(R.color.flickr_blue),
+                    containerColor = colorResource(R.color.omada_dark),
                     titleContentColor = Color.White
                 )
             )
@@ -93,20 +95,26 @@ fun SearchPhotosScreen(
                     },
                     modifier = Modifier.weight(1f),
                     singleLine = true,
-                    label = { Text("Search photos") }
+                    label = { Text(stringResource(R.string.search_photos)) },
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            keyboardController?.hide()
+                            onSearch()
+                        }
+                    )
                 )
                 Button(
                     onClick = {
                         keyboardController?.hide()
                         onSearch()
                     }, colors = ButtonColors(
-                        containerColor = colorResource(R.color.flickr_pink),
+                        containerColor = colorResource(R.color.omada_orange),
                         contentColor = colorResource(R.color.white),
-                        disabledContainerColor = colorResource(R.color.flickr_pink),
-                        disabledContentColor = colorResource(R.color.flickr_pink),
+                        disabledContainerColor = colorResource(R.color.omada_orange),
+                        disabledContentColor = colorResource(R.color.omada_orange),
                     )
                 ) {
-                    Text("Go")
+                    Text(stringResource(R.string.go))
                 }
             }
 
